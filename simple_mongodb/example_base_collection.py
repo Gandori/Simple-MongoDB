@@ -1,7 +1,9 @@
 from typing import Any, Literal
 
+from .exceptions import Exceptions
 
-class BaseCollection:
+
+class BaseCollection(Exceptions):
     def __init__(self) -> None:
         self.collection: str = 'base-collection'
 
@@ -83,6 +85,9 @@ class BaseCollection:
         raise NotImplementedError
 
     async def drop_index(self, index_or_name: str) -> None:
+        raise NotImplementedError
+
+    async def drop_collection(self) -> None:
         raise NotImplementedError
 
     async def drop_collection(self) -> None:
