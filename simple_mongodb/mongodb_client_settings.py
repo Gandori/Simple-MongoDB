@@ -2,7 +2,7 @@ from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
-class DatabaseSettings(BaseSettings):
+class MongoDBClientSettings(BaseSettings):
     host: str = Field(default='localhost', alias='MONGODB_HOST')
     port: int = Field(default=27017, alias='MONGODB_PORT')
     username: str = Field(default='user', alias='MONGODB_USERNAME')
@@ -13,5 +13,4 @@ class DatabaseSettings(BaseSettings):
 
     @property
     def url(self) -> str:
-        print(self.port)
         return f'mongodb://{self.username}:{self.password}@{self.host}:{self.port}'
