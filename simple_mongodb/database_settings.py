@@ -10,3 +10,8 @@ class DatabaseSettings(BaseSettings):
     db: str = Field(default='example', alias='MONGODB_DB')
     response_timeout: int = Field(default=5000, alias='MONGODB_RESPONSE_TIMEOUT')
     connection_timeout: int = Field(default=5000, alias='MONGODB_CONNECTION_TIMEOUT')
+
+    @property
+    def url(self) -> str:
+        print(self.port)
+        return f'mongodb://{self.username}:{self.password}@{self.host}:{self.port}'
