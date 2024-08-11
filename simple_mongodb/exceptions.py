@@ -13,3 +13,6 @@ class Exceptions:
 
     class DuplicateKeyError(Exception):
         pass
+
+    class ServerTimeoutError(Exception):
+        pass
