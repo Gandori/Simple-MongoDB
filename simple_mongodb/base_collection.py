@@ -21,33 +21,34 @@ class BaseCollection(Exceptions):
             BaseCollection.__client_settings = MongoDBClientSettings()
             BaseCollection.client = MongoDBClient(settings=self.__client_settings)
 
-        if hasattr(self, 'client'):
-            raise NotImplementedError(
-                f"The subclass '{self.__class__.__name__}' of BaseCollection currently does not support the value 'client'"
-            )
-
-        if hasattr(self, 'db'):
-            if not isinstance(cls.db, str):  # type: ignore
-                raise TypeError(
-                    f"The 'db' value in subclass '{self.__class__.__name__}' of BaseCollection must be a string"
-                )
-        else:
+        if not hasattr(self, 'db'):
             self.db = self.__client_settings.db
-
-        if not hasattr(self, 'collection'):
-            raise ValueError(
-                f"The subclass '{self.__class__.__name__}' of BaseCollection must define 'collection'"
-            )
-
-        if not isinstance(cls.collection, str):  # type: ignore
-            raise TypeError(
-                f"The 'collection' value in subclass '{self.__class__.__name__}' of BaseCollection must be a string"
-            )
 
     def __init_subclass__(cls) -> None:
         if '__init__' in cls.__dict__:
             raise TypeError(
                 f"The subclass '{cls.__name__}' of BaseCollection is not allowed to override __init__"
+            )
+
+        if hasattr(cls, 'client'):
+            raise NotImplementedError(
+                f"The subclass '{cls.__name__}' of BaseCollection currently does not support the value 'client'"
+            )
+
+        if hasattr(cls, 'db'):
+            if not isinstance(cls.db, str):  # type: ignore
+                raise TypeError(
+                    f"The 'db' value in subclass '{cls.__name__}' of BaseCollection must be a string"
+                )
+
+        if not hasattr(cls, 'collection'):
+            raise ValueError(
+                f"The subclass '{cls.__name__}' of BaseCollection must define 'collection'"
+            )
+
+        if not isinstance(cls.collection, str):  # type: ignore
+            raise TypeError(
+                f"The 'collection' value in subclass '{cls.__name__}' of BaseCollection must be a string"
             )
 
     async def find_one(self, where: dict[str, Any]) -> dict[str, Any]:
