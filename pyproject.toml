@@ -8,6 +8,8 @@ version = '0.1.0'
 description = "Not Available"
 requires-python = '>=3.12'
 authors = []
+license = "MIT"
+readme = "README.md"
 dependencies = ['motor==3.5.0', 'pydantic==2.8.0', 'pydantic-settings==2.3.4']
 
 [project.urls]
