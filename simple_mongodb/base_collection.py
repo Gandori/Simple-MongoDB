@@ -8,10 +8,47 @@ from .mongodb_client_settings import MongoDBClientSettings
 
 
 class BaseCollection(Exceptions):
-    settings: MongoDBClientSettings = MongoDBClientSettings()
-    client: MongoDBClient = MongoDBClient(settings=settings)
-    db: str = settings.db
-    collection: str = 'base-collection'
+    __initialized: bool = False
+    __client_settings: MongoDBClientSettings
+
+    client: MongoDBClient
+    db: str
+    collection: str
+
+    def __init__(self) -> None:
+        if not BaseCollection.__initialized:
+            BaseCollection.__initialized = True
+            BaseCollection.__client_settings = MongoDBClientSettings()
+            BaseCollection.client = MongoDBClient(settings=self.__client_settings)
+
+        if hasattr(self, 'client'):
+            raise NotImplementedError(
+                f"The subclass '{self.__class__.__name__}' of BaseCollection currently does not support the value 'client'"
+            )
+
+        if hasattr(self, 'db'):
+            if not isinstance(cls.db, str):  # type: ignore
+                raise TypeError(
+                    f"The 'db' value in subclass '{self.__class__.__name__}' of BaseCollection must be a string"
+                )
+        else:
+            self.db = self.__client_settings.db
+
+        if not hasattr(self, 'collection'):
+            raise ValueError(
+                f"The subclass '{self.__class__.__name__}' of BaseCollection must define 'collection'"
+            )
+
+        if not isinstance(cls.collection, str):  # type: ignore
+            raise TypeError(
+                f"The 'collection' value in subclass '{self.__class__.__name__}' of BaseCollection must be a string"
+            )
+
+    def __init_subclass__(cls) -> None:
+        if '__init__' in cls.__dict__:
+            raise TypeError(
+                f"The subclass '{cls.__name__}' of BaseCollection is not allowed to override __init__"
+            )
 
     async def find_one(self, where: dict[str, Any]) -> dict[str, Any]:
         '''
