@@ -28,6 +28,13 @@ dev = [
     'pytest-sugar==1.0.0',
 ]
 
+classifiers = [
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3.12',
+    'Intended Audience :: Developers',
+    'Topic :: Database',
+]
+
 [tool.setuptools]
 packages = ['simple_mongodb']
 package-data = { 'simple_mongodb' = ['/*.pyi'] }
