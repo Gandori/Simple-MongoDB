@@ -26,6 +26,10 @@ dev = [
     'pytest-sugar==1.0.0',
 ]
 
+[tool.setuptools]
+packages = ['simple_mongodb']
+package-data = { 'simple_mongodb' = ['/*.pyi'] }
+
 
 [tool.black]
 line-length = 88
