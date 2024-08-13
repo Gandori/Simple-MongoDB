@@ -11,6 +11,12 @@ authors = []
 license = { file = "LICENSE" }
 readme = "README.md"
 dependencies = ['motor==3.5.0', 'pydantic==2.8.0', 'pydantic-settings==2.3.4']
+classifiers = [
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3.12',
+    'Intended Audience :: Developers',
+    'Topic :: Database',
+]
 
 [project.urls]
 Homepage = 'https://github.com/Gandori/Simple-MongoDB'
@@ -28,17 +34,9 @@ dev = [
     'pytest-sugar==1.0.0',
 ]
 
-classifiers = [
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 3.12',
-    'Intended Audience :: Developers',
-    'Topic :: Database',
-]
-
 [tool.setuptools]
 packages = ['simple_mongodb']
 package-data = { 'simple_mongodb' = ['py.typed'] }
-
 
 [tool.black]
 line-length = 88
