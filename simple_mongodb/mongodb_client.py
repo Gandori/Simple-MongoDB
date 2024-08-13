@@ -1,3 +1,4 @@
+import os
 from functools import wraps
 from typing import Any, Callable
 
@@ -8,7 +9,6 @@ from pymongo.errors import DuplicateKeyError, ServerSelectionTimeoutError
 from pymongo.results import DeleteResult, InsertOneResult, UpdateResult
 
 from .exceptions import Exceptions
-from .mongodb_client_settings import MongoDBClientSettings
 
 
 def exception_decorator(
@@ -32,12 +32,73 @@ def exception_decorator(
 
 
 class MongoDBClient:
-    def __init__(self, settings: MongoDBClientSettings) -> None:
-        self.client: AsyncIOMotorClient[Any] = AsyncIOMotorClient(
-            settings.url,
-            serverSelectionTimeoutMS=settings.response_timeout,
-            connectTimeoutMS=settings.connection_timeout,
+    def __init__(
+        self,
+        url: str | None = None,
+        host: str | None = None,
+        port: int | None = None,
+        username: str | None = None,
+        password: str | None = None,
+        db: str | None = None,
+        response_timeout: int | None = None,
+        connection_timeout: int | None = None,
+    ) -> None:
+        self.url: str
+        self.host: str
+        self.port: int
+        self.username: str
+        self.password: str
+        self.response_timeout: int
+        self.connection_timeout: int
+        self.db: str = db if db else os.getenv('MONGODB_DB', 'example')
+
+        if not url:
+            self.host = host if host else os.getenv('MONGODB_HOST', 'localhost')
+
+            try:
+                self.port = port if port else int(os.getenv('MONGODB_PORT', '27017'))
+            except ValueError:
+                raise ValueError('MONGODB_PORT must be a int')
+
+            self.username = (
+                username if username else os.getenv('MONGODB_USERNAME', 'user')
+            )
+            self.password = (
+                password if password else os.getenv('MONGODB_PASSWORD', 'user')
+            )
+
+            try:
+                self.response_timeout = (
+                    response_timeout
+                    if response_timeout
+                    else int(os.getenv('MONGODB_RESPONSE_TIMEOUT', '5000'))
+                )
+            except ValueError:
+                raise ValueError('MONGODB_RESPONSE_TIMEOUT must be a int')
+
+            try:
+                self.connection_timeout = (
+                    connection_timeout
+                    if connection_timeout
+                    else int(os.getenv('MONGODB_CONNECTION_TIMEOUT', '5000'))
+                )
+            except ValueError:
+                raise ValueError('MONGODB_CONNECTION_TIMEOUT must be a int')
+
+            self.url = (
+                f'mongodb://{self.username}:{self.password}@{self.host}:{self.port}'
+            )
+        else:
+            self.url = url
+
+        self.__client: AsyncIOMotorClient[Any] = AsyncIOMotorClient(
+            self.url,
+            serverSelectionTimeoutMS=self.response_timeout,
+            connectTimeoutMS=self.connection_timeout,
         )
+
+    def close(self) -> None:
+        self.__client.close()
 
     @exception_decorator(exception=Exceptions.FindError)
     async def find(
@@ -48,14 +109,14 @@ class MongoDBClient:
         skip: int = 0,
         limit: int = 25,
     ) -> list[dict[str, Any]]:
-        cursor: AgnosticCursor[Any] = self.client[db][collection].find(where)
+        cursor: AgnosticCursor[Any] = self.__client[db][collection].find(where)
         return await cursor.skip(skip=skip).to_list(length=limit)  # type: ignore
 
     @exception_decorator(exception=Exceptions.FindError)
     async def find_one(
         self, db: str, collection: str, where: dict[str, Any]
     ) -> dict[str, Any]:
-        result: dict[str, Any] | None = await self.client[db][collection].find_one(
+        result: dict[str, Any] | None = await self.__client[db][collection].find_one(
             where
         )
         if not result:
@@ -66,7 +127,9 @@ class MongoDBClient:
     async def insert_one(
         self, db: str, collection: str, document: dict[str, Any]
     ) -> ObjectId:
-        result: InsertOneResult = await self.client[db][collection].insert_one(document)
+        result: InsertOneResult = await self.__client[db][collection].insert_one(
+            document
+        )
         return result.inserted_id
 
     @exception_decorator(exception=Exceptions.UpdateError)
@@ -78,7 +141,7 @@ class MongoDBClient:
         update: dict[str, Any],
         upsert: bool = False,
     ) -> ObjectId | None:
-        result: UpdateResult = await self.client[db][collection].update_one(
+        result: UpdateResult = await self.__client[db][collection].update_one(
             filter=where, update=update, upsert=upsert
         )
         return result.upserted_id
@@ -87,8 +150,8 @@ class MongoDBClient:
     async def delete_one(
         self, db: str, collection: str, where: dict[str, Any]
     ) -> DeleteResult:
-        return await self.client[db][collection].delete_one(where)
+        return await self.__client[db][collection].delete_one(where)
 
     @exception_decorator(exception=Exceptions.DropCollectionError)
     async def drop_collection(self, db: str, collection: str) -> None:
-        await self.client[db][collection].drop()
+        await self.__client[db][collection].drop()

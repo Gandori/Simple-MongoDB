@@ -4,12 +4,10 @@ from bson import ObjectId
 
 from .exceptions import Exceptions
 from .mongodb_client import MongoDBClient
-from .mongodb_client_settings import MongoDBClientSettings
 
 
 class BaseCollection(Exceptions):
     __initialized: bool = False
-    __client_settings: MongoDBClientSettings
 
     client: MongoDBClient
     db: str
@@ -18,11 +16,10 @@ class BaseCollection(Exceptions):
     def __init__(self) -> None:
         if not BaseCollection.__initialized:
             BaseCollection.__initialized = True
-            BaseCollection.__client_settings = MongoDBClientSettings()
-            BaseCollection.client = MongoDBClient(settings=self.__client_settings)
+            BaseCollection.client = MongoDBClient()
 
         if not hasattr(self, 'db'):
-            self.db = self.__client_settings.db
+            self.db = self.client.db
 
     @classmethod
     def __init_subclass__(cls: Type['BaseCollection']) -> None:
