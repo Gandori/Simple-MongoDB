@@ -7,16 +7,14 @@ from .mongodb_client import MongoDBClient
 
 
 class BaseCollection(Exceptions):
-    __initialized: bool = False
-
-    client: MongoDBClient
     db: str
     collection: str
 
-    def __init__(self) -> None:
-        if not BaseCollection.__initialized:
-            BaseCollection.__initialized = True
-            BaseCollection.client = MongoDBClient()
+    def __init__(self, client: MongoDBClient) -> None:
+        self.client: MongoDBClient = client
+
+        if not isinstance(self.client, MongoDBClient):  # type: ignore
+            raise TypeError(f"The client value must be a instance of MongoDBClient")
 
         if not hasattr(self, 'db'):
             self.db = self.client.db
@@ -26,11 +24,6 @@ class BaseCollection(Exceptions):
         if '__init__' in cls.__dict__:
             raise TypeError(
                 f"The subclass '{cls.__name__}' of BaseCollection is not allowed to override __init__"
-            )
-
-        if hasattr(cls, 'client'):
-            raise NotImplementedError(
-                f"The subclass '{cls.__name__}' of BaseCollection currently does not support the value 'client'"
             )
 
         if hasattr(cls, 'db'):
