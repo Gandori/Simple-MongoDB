@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict, List, Type
 
 from bson import ObjectId
 
@@ -24,7 +24,8 @@ class BaseCollection(Exceptions):
         if not hasattr(self, 'db'):
             self.db = self.__client_settings.db
 
-    def __init_subclass__(cls) -> None:
+    @classmethod
+    def __init_subclass__(cls: Type['BaseCollection']) -> None:
         if '__init__' in cls.__dict__:
             raise TypeError(
                 f"The subclass '{cls.__name__}' of BaseCollection is not allowed to override __init__"
@@ -51,7 +52,7 @@ class BaseCollection(Exceptions):
                 f"The 'collection' value in subclass '{cls.__name__}' of BaseCollection must be a string"
             )
 
-    async def find_one(self, where: dict[str, Any]) -> dict[str, Any]:
+    async def find_one(self, where: Dict[str, Any]) -> Dict[str, Any]:
         '''
         Find one document in the collection.
 
@@ -68,8 +69,8 @@ class BaseCollection(Exceptions):
         )
 
     async def find(
-        self, where: dict[str, Any] = {}, skip: int = 0, limit: int = 25
-    ) -> list[dict[str, Any]]:
+        self, where: Dict[str, Any] = {}, skip: int = 0, limit: int = 25
+    ) -> List[Dict[str, Any]]:
         '''
         Find documents in the collection.
 
@@ -86,7 +87,7 @@ class BaseCollection(Exceptions):
             db=self.db, collection=self.collection, where=where, skip=skip, limit=limit
         )
 
-    async def insert_one(self, document: dict[str, Any]) -> ObjectId:
+    async def insert_one(self, document: Dict[str, Any]) -> ObjectId:
         '''
         Insert one document into the collection.
 
@@ -106,7 +107,7 @@ class BaseCollection(Exceptions):
         )
 
     async def update_one(
-        self, where: dict[str, Any], update: dict[str, Any], upsert: bool = False
+        self, where: Dict[str, Any], update: Dict[str, Any], upsert: bool = False
     ) -> ObjectId | None:
         '''
         Update one document in the collection.
