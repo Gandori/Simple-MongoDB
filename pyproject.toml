@@ -37,7 +37,7 @@ classifiers = [
 
 [tool.setuptools]
 packages = ['simple_mongodb']
-package-data = { 'simple_mongodb' = ['/*.pyi'] }
+package-data = { 'simple_mongodb' = ['py.typed'] }
 
 
 [tool.black]
