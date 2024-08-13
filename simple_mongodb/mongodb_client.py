@@ -101,6 +101,17 @@ class MongoDBClient:
         self.__client.close()
 
     @exception_decorator(exception=Exceptions.FindError)
+    async def find_one(
+        self, db: str, collection: str, where: dict[str, Any]
+    ) -> Dict[str, Any]:
+        result: dict[str, Any] | None = await self.__client[db][collection].find_one(
+            where
+        )
+        if not result:
+            raise Exceptions.NotFoundError('The document was not found')
+        return result
+
+    @exception_decorator(exception=Exceptions.FindError)
     async def find(
         self,
         db: str,
@@ -111,17 +122,6 @@ class MongoDBClient:
     ) -> List[Dict[str, Any]]:
         cursor: AgnosticCursor[Any] = self.__client[db][collection].find(where)
         return await cursor.skip(skip=skip).to_list(length=limit)  # type: ignore
-
-    @exception_decorator(exception=Exceptions.FindError)
-    async def find_one(
-        self, db: str, collection: str, where: dict[str, Any]
-    ) -> Dict[str, Any]:
-        result: dict[str, Any] | None = await self.__client[db][collection].find_one(
-            where
-        )
-        if not result:
-            raise Exceptions.NotFoundError('The document was not found')
-        return result
 
     @exception_decorator(exception=Exceptions.InsertError)
     async def insert_one(
