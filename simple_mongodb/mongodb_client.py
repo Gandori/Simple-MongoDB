@@ -1,6 +1,6 @@
 import os
 from functools import wraps
-from typing import Any, Callable
+from typing import Any, Callable, Dict, List
 
 from bson import ObjectId
 from motor.core import AgnosticCursor
@@ -108,14 +108,14 @@ class MongoDBClient:
         where: dict[str, Any] = {},
         skip: int = 0,
         limit: int = 25,
-    ) -> list[dict[str, Any]]:
+    ) -> List[Dict[str, Any]]:
         cursor: AgnosticCursor[Any] = self.__client[db][collection].find(where)
         return await cursor.skip(skip=skip).to_list(length=limit)  # type: ignore
 
     @exception_decorator(exception=Exceptions.FindError)
     async def find_one(
         self, db: str, collection: str, where: dict[str, Any]
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         result: dict[str, Any] | None = await self.__client[db][collection].find_one(
             where
         )
