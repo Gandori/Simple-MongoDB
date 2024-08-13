@@ -10,7 +10,7 @@ requires-python = '>=3.12'
 authors = []
 license = { file = "LICENSE" }
 readme = "README.md"
-dependencies = ['motor==3.5.0', 'pydantic==2.8.0', 'pydantic-settings==2.3.4']
+dependencies = ['motor==3.5.0']
 classifiers = [
     'Programming Language :: Python',
     'Programming Language :: Python :: 3.12',
