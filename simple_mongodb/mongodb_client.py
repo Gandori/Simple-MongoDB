@@ -6,7 +6,12 @@ from bson import ObjectId
 from motor.core import AgnosticCursor
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import DuplicateKeyError, ServerSelectionTimeoutError
-from pymongo.results import DeleteResult, InsertOneResult, UpdateResult
+from pymongo.results import (
+    DeleteResult,
+    InsertManyResult,
+    InsertOneResult,
+    UpdateResult,
+)
 
 from .exceptions import Exceptions
 
@@ -20,10 +25,13 @@ def exception_decorator(
             try:
                 return await func(*args, **kwargs)
             except DuplicateKeyError as e:
+                print(e)
                 raise Exceptions.DuplicateKeyError(e)
             except ServerSelectionTimeoutError as e:
+                print(e)
                 raise Exceptions.ServerTimeoutError(e)
             except Exception as e:
+                print(e)
                 raise exception(e)
 
         return wrapper
@@ -67,29 +75,29 @@ class MongoDBClient:
                 password if password else os.getenv('MONGODB_PASSWORD', 'user')
             )
 
-            try:
-                self.response_timeout = (
-                    response_timeout
-                    if response_timeout
-                    else int(os.getenv('MONGODB_RESPONSE_TIMEOUT', '5000'))
-                )
-            except ValueError:
-                raise ValueError('MONGODB_RESPONSE_TIMEOUT must be a int')
-
-            try:
-                self.connection_timeout = (
-                    connection_timeout
-                    if connection_timeout
-                    else int(os.getenv('MONGODB_CONNECTION_TIMEOUT', '5000'))
-                )
-            except ValueError:
-                raise ValueError('MONGODB_CONNECTION_TIMEOUT must be a int')
-
             self.url = (
                 f'mongodb://{self.username}:{self.password}@{self.host}:{self.port}'
             )
         else:
             self.url = url
+
+        try:
+            self.response_timeout = (
+                response_timeout
+                if response_timeout
+                else int(os.getenv('MONGODB_RESPONSE_TIMEOUT', '5000'))
+            )
+        except ValueError:
+            raise ValueError('MONGODB_RESPONSE_TIMEOUT must be a int')
+
+        try:
+            self.connection_timeout = (
+                connection_timeout
+                if connection_timeout
+                else int(os.getenv('MONGODB_CONNECTION_TIMEOUT', '5000'))
+            )
+        except ValueError:
+            raise ValueError('MONGODB_CONNECTION_TIMEOUT must be a int')
 
         self.__client: AsyncIOMotorClient[Any] = AsyncIOMotorClient(
             self.url,
@@ -131,6 +139,22 @@ class MongoDBClient:
             document
         )
         return result.inserted_id
+
+    @exception_decorator(exception=Exceptions.InsertError)
+    async def insert_many(
+        self,
+        db: str,
+        collection: str,
+        documents: List[Dict[str, Any]],
+        ordered: bool = True,
+        bypass_document_validation: bool = False,
+    ) -> List[ObjectId]:
+        result: InsertManyResult = await self.__client[db][collection].insert_many(
+            documents=documents,
+            ordered=ordered,
+            bypass_document_validation=bypass_document_validation,
+        )
+        return result.inserted_ids
 
     @exception_decorator(exception=Exceptions.UpdateError)
     async def update_one(

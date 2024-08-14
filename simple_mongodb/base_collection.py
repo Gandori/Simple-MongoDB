@@ -55,6 +55,7 @@ class BaseCollection(Exceptions):
         Raises:
             NotFoundError: If the document not find.
             FindOneError: If an error occurs while finding the document.
+            ServerTimeoutError: Raised if the server takes too long to respond.
         '''
 
         return await self.client.find_one(
@@ -78,6 +79,7 @@ class BaseCollection(Exceptions):
 
         Raises:
             FindOneError: If an error occurs while finding the documents.
+            ServerTimeoutError: Raised if the server takes too long to respond.
         '''
 
         return await self.client.find(
@@ -96,11 +98,51 @@ class BaseCollection(Exceptions):
 
         Raises:
             InsertError: If an error occurs while inserting the document.
-            DuplicateKeyError: If the document cannot be inserted due to a duplicate key constraint violation.
+            DuplicateKeyError: If the document cannot be inserted due to a
+                               duplicate key constraint violation.
+            ServerTimeoutError: Raised if the server takes too long to respond.
         '''
 
         return await self.client.insert_one(
             db=self.db, collection=self.collection, document=document
+        )
+
+    async def insert_many(
+        self,
+        documents: List[Dict[str, Any]],
+        ordered: bool = True,
+        bypass_document_validation: bool = False,
+    ) -> List[ObjectId]:
+        '''
+        Insert many documents in the collection.
+
+        Args:
+            documents (List[Dict[str, Any]]): A list of dictionaries, each representing
+                                              a document to be inserted into the collection.
+
+            ordered (bool): If True, documents will be inserted in the order provided,
+                            and the insertion will stop upon encountering an error. If False, the server
+                            will attempt to insert all documents, even if some fail.
+
+            bypass_document_validation (bool): If True, bypasses server-side validation
+                                               for the documents being inserted.
+
+        Returns:
+            list[ObjectId]: A list of _ids of the inserted documents, in the order provided.
+                            If False is passed for the ordered parameter the server may have inserted
+                            the documents in a different order than what is presented here.
+
+        Raises:
+            InsertError: If an error occurs while inserting the documents.
+            ServerTimeoutError: Raised if the server takes too long to respond.
+        '''
+
+        return await self.client.insert_many(
+            db=self.db,
+            collection=self.collection,
+            documents=documents,
+            ordered=ordered,
+            bypass_document_validation=bypass_document_validation,
         )
 
     async def update_one(
@@ -120,6 +162,7 @@ class BaseCollection(Exceptions):
         Raises:
             UpdateError: If an error occurs while updating the document.
             DuplicateKeyError: If the document cannot be inserted due to a duplicate key constraint violation.
+            ServerTimeoutError: Raised if the server takes too long to respond.
         '''
 
         return await self.client.update_one(
@@ -142,6 +185,7 @@ class BaseCollection(Exceptions):
 
         Raises:
             DeleteError: If an error occurs while deleting the document.
+            ServerTimeoutError: Raised if the server takes too long to respond.
         '''
 
         await self.client.delete_one(
@@ -156,7 +200,8 @@ class BaseCollection(Exceptions):
             None: This method does not return a value.
 
         Raises:
-            DropCollectionError: if an error occurs while dropping the collection
+            DropCollectionError: if an error occurs while dropping the collection.
+            ServerTimeoutError: Raised if the server takes too long to respond.
         '''
 
         await self.client.drop_collection(db=self.db, collection=self.collection)
