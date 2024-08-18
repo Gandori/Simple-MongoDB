@@ -179,3 +179,9 @@ class MongoDBClient:
     @exception_decorator(exception=Exceptions.DropCollectionError)
     async def drop_collection(self, db: str, collection: str) -> None:
         await self.__client[db][collection].drop()
+
+    @exception_decorator(exception=Exceptions.CountDocumentsError)
+    async def count_documents(
+        self, db: str, collection: str, where: dict[str, Any]
+    ) -> int:
+        return await self.__client[db][collection].count_documents(filter=where)

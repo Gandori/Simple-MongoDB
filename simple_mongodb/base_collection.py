@@ -202,7 +202,7 @@ class BaseCollection(Exceptions):
         Delete one document in the collection
 
         Args:
-            where (dict):
+            where (dict[str, Any]):
                 A dictionary specifying the criteria for finding the document to delete.
 
         Returns:
@@ -230,9 +230,29 @@ class BaseCollection(Exceptions):
 
         Raises:
             DropCollectionError:
-                if an error occurs while dropping the collection.
+                Raised if an error occurs while dropping the collection.
             ServerTimeoutError:
                 Raised if the server takes too long to respond.
         '''
 
         await self.client.drop_collection(db=self.db, collection=self.collection)
+
+    async def count_documents(self, where: Dict[str, Any]) -> int:
+        '''
+        Counts the number of documents in the collection.
+
+        Args:
+            where (dict[str, Any]):
+                A dictionary specifying the criteria to filter documents for counting.
+
+        Returns:
+            int:
+                The number of documents in the collection that match the given criteria.
+
+        Raises:
+            CountDocumentsError:
+                Raised if an error occurs while attempting to count the documents.
+        '''
+        return await self.client.count_documents(
+            db=self.db, collection=self.collection, filter=where
+        )
