@@ -254,5 +254,5 @@ class BaseCollection(Exceptions):
                 Raised if an error occurs while attempting to count the documents.
         '''
         return await self.client.count_documents(
-            db=self.db, collection=self.collection, filter=where
+            db=self.db, collection=self.collection, where=where
         )
