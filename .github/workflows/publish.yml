@@ -24,10 +24,6 @@ jobs:
           pip install . && pip install .[dev]
           pip install setuptools wheel build twine
 
-      - name: Run Tests
-        run: /
-          echo "implement run tests"
-
       - name: Build package
         run: |
           python -m build
