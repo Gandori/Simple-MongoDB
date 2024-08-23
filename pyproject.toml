@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = 'simple-mongodb'
-version = '0.2.1'
+version = '0.2.2'
 description = "Not Available"
 requires-python = '>=3.12'
 authors = []
