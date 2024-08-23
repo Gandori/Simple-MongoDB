@@ -1,6 +1,6 @@
 import os
 from functools import wraps
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, Literal
 
 from bson import ObjectId
 from motor.core import AgnosticCursor
@@ -127,9 +127,12 @@ class MongoDBClient:
         where: dict[str, Any] = {},
         skip: int = 0,
         limit: int = 25,
+        sort: list[tuple[str, Literal[-1, 1]]] | None = None,
     ) -> List[Dict[str, Any]]:
         cursor: AgnosticCursor[Any] = self.__client[db][collection].find(where)
-        return await cursor.skip(skip=skip).to_list(length=limit)  # type: ignore
+        if sort is None:
+            return await cursor.skip(skip=skip).to_list(length=limit)  # type: ignore
+        return await cursor.sort(sort).skip(skip=skip).to_list(length=limit)  # type: ignore
 
     @exception_decorator(exception=Exceptions.InsertError)
     async def insert_one(
