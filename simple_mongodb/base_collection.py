@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type
+from typing import Any, Dict, List, Literal, Type
 
 from bson import ObjectId
 
@@ -67,8 +67,13 @@ class BaseCollection(Exceptions):
             db=self.db, collection=self.collection, where=where
         )
 
+    # erganeze den docstring
     async def find(
-        self, where: Dict[str, Any] = {}, skip: int = 0, limit: int = 25
+        self,
+        where: Dict[str, Any] = {},
+        skip: int = 0,
+        limit: int = 25,
+        sort: list[tuple[str, Literal[-1, 1]]] | None = None,
     ) -> List[Dict[str, Any]]:
         '''
         Find documents in the collection.
@@ -80,6 +85,9 @@ class BaseCollection(Exceptions):
                 The number of documents to skip before starting to return results. Defaults to 0.
             limit (int, optional):
                 The maximum number of documents to return. Defaults to 25.
+            sort (List[tuple[str, Literal[-1, 1]]], optional):
+                A list of tuples specifying the sort order. Each tuple contains a field name and a sort direction (-1 for descending, 1 for ascending). Defaults to None.
+
 
         Returns:
             Documents (List[Dict[str, Any]]):
@@ -93,7 +101,12 @@ class BaseCollection(Exceptions):
         '''
 
         return await self.client.find(
-            db=self.db, collection=self.collection, where=where, skip=skip, limit=limit
+            db=self.db,
+            collection=self.collection,
+            where=where,
+            skip=skip,
+            limit=limit,
+            sort=sort,
         )
 
     async def insert_one(self, document: Dict[str, Any]) -> ObjectId:
