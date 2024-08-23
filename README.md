@@ -59,6 +59,12 @@ Features
 
 Placeholder
 
+## Installation
+
+```sh
+pip install simple-mongodb
+```
+
 ### Simple Example
 
 ```python
