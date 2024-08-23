@@ -1,5 +1,21 @@
 # Simple-MongoDB
 
+<p align="center">
+    <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
+        <img src="https://img.shields.io/badge/3.12-3b78a9?style=for-the-badge&logo=Python&logoColor=ffffff" alt="Documentation">
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
+        <img src="https://img.shields.io/badge/Documentation-ef5552?style=for-the-badge&logo=Read the Docs&logoColor=ffffff" alt="Documentation">
+    </a>
+    <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
+        <img src="https://img.shields.io/badge/Source_code-0953dc?style=for-the-badge&logo=Github&logoColor=fffff" alt="Source Code">
+    </a>
+</p>
+
+
 > Warning: This Python package is currently still in development phase
 
 Features
