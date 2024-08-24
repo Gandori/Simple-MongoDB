@@ -163,6 +163,8 @@ class BaseCollection(Exceptions):
         Raises:
             InsertError:
                 If an error occurs while inserting the documents.
+            DuplicateKeyError:
+                If the document cannot be inserted due to a duplicate key constraint violation.
             ServerTimeoutError:
                 Raised if the server takes too long to respond.
         '''
