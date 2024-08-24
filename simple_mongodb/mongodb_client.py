@@ -179,6 +179,12 @@ class MongoDBClient:
     ) -> DeleteResult:
         return await self.__client[db][collection].delete_one(where)
 
+    @exception_decorator(exception=Exceptions.DeleteError)
+    async def delete_many(
+        self, db: str, collection: str, where: dict[str, Any]
+    ) -> DeleteResult:
+        return await self.__client[db][collection].delete_many(filter=where)
+
     @exception_decorator(exception=Exceptions.DropCollectionError)
     async def drop_collection(self, db: str, collection: str) -> None:
         await self.__client[db][collection].drop()
