@@ -233,6 +233,29 @@ class BaseCollection(Exceptions):
             db=self.db, collection=self.collection, where=where
         )
 
+    async def delete_many(self, where: Dict[str, Any]) -> None:
+        '''
+        Delete many documents in the collection
+
+        Args:
+            where (dict[str, Any]):
+                A dictionary specifying the criteria for finding the documents to delete.
+
+        Returns:
+            None:
+                This method does not return a value.
+
+        Raises:
+            DeleteError:
+                If an error occurs while deleting the documents.
+            ServerTimeoutError:
+                Raised if the server takes too long to respond.
+        '''
+
+        await self.client.delete_many(
+            db=self.db, collection=self.collection, where=where
+        )
+
     async def drop_collection(self) -> None:
         '''
         Drop the collection from the database
