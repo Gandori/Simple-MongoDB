@@ -3,12 +3,26 @@ from typing import Any, Dict, List, Literal, Type
 from bson import ObjectId
 
 from .exceptions import Exceptions
+from .index import Index
 from .mongodb_client import MongoDBClient
 
 
 class BaseCollection(Exceptions):
+    '''
+    Base collection to create collections
+
+    Attributes:
+        db (str):
+            The name of the database or use the enviroment variable MONGODB_DB.
+        collection (str):
+            The name of the collection.
+        indexes (list[]):
+            A list of indexes to create for the collection.
+    '''
+
     db: str
     collection: str
+    indexes: List[Index.IndexType] = []
 
     def __init__(self, client: MongoDBClient) -> None:
         self.client: MongoDBClient = client
@@ -293,4 +307,55 @@ class BaseCollection(Exceptions):
         '''
         return await self.client.count_documents(
             db=self.db, collection=self.collection, where=where
+        )
+
+    async def create_index(self, index: Index.IndexType) -> None:
+        '''
+        Create an index in the collection.
+
+        Args:
+            index (Index.IndexType):
+                The index to create in the collection. This can be an instance of a specific
+                index type (e.g., `Index.SimpleIndex`, `Index.CompoundIndex`, ...`).
+
+        Returns:
+            None:
+                This method does not return a value.
+
+        Raises:
+            DatabaseCreateIndexError:
+                If an error occurs while creating the index.
+        '''
+
+        await self.client.create_index(
+            db=self.db, collection=self.collection, index=index
+        )
+
+    async def create_indexes(
+        self, indexes: list[Index.IndexType] | None = None
+    ) -> None:
+        '''
+        Create many indexes in the collection and create the indexes that defined in the collection class
+
+        Args:
+            indexes (list[Index.IndexType] | None):
+                List of indexes to create in the collection. Every index can be an instance of a specific
+                index type (e.g., `Index.SimpleIndex`, `Index.CompoundIndex`, ...`).
+
+        Returns:
+            None:
+                This method does not return a value.
+
+        Raises:
+            DatabaseCreateIndexError:
+                If an error occurs while creating the indexes.
+        '''
+
+        self.indexes.extend(indexes if indexes else [])
+
+        if len(self.indexes) < 1:
+            return None
+
+        await self.client.create_indexes(
+            db=self.db, collection=self.collection, indexes=self.indexes
         )

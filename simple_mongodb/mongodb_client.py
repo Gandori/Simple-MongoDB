@@ -5,6 +5,7 @@ from typing import Any, Callable, Dict, List, Literal
 from bson import ObjectId
 from motor.core import AgnosticCursor
 from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import IndexModel
 from pymongo.errors import DuplicateKeyError, ServerSelectionTimeoutError
 from pymongo.results import (
     DeleteResult,
@@ -14,6 +15,7 @@ from pymongo.results import (
 )
 
 from .exceptions import Exceptions
+from .index import Index
 
 
 def exception_decorator(
@@ -194,3 +196,17 @@ class MongoDBClient:
         self, db: str, collection: str, where: dict[str, Any]
     ) -> int:
         return await self.__client[db][collection].count_documents(filter=where)
+
+    @exception_decorator(exception=Exceptions.CreateIndexError)
+    async def create_index(
+        self, db: str, collection: str, index: Index.IndexType
+    ) -> None:
+        await self.__client[db][collection].create_index(**index.model_dump())
+
+    @exception_decorator(exception=Exceptions.CreateIndexError)
+    async def create_indexes(
+        self, db: str, collection: str, indexes: list[Index.IndexType]
+    ) -> None:
+        await self.__client[db][collection].create_indexes(
+            indexes=[IndexModel(**index.model_dump()) for index in indexes]
+        )
