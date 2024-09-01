@@ -1,5 +1,9 @@
 # Changelog
 
+### Version - 0.4.1
+
+- Update project description in pyproject.toml
+
 ### Version - 0.4.0
 
 - Improve and add new Docstrings
