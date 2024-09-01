@@ -2,20 +2,26 @@
 
 <p align="center">
     <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
-        <img src="https://img.shields.io/badge/3.12-3b78a9?style=for-the-badge&logo=Python&logoColor=ffffff" alt="Documentation">
+        <img src="https://img.shields.io/badge/3.12-3b78a9?style=for-the-badge&logo=Python&logoColor=ffffff" alt="Python-Versions">
     </a>
     <a href="https://github.com/Gandori/Simple-MongoDB/blob/master/CHANGELOG.md" target="_blank">
-        <img src="https://img.shields.io/badge/Changelog-3b78a9?style=for-the-badge&logoColor=ffffff" alt="Changelog">
+        <img src="https://img.shields.io/badge/Changelog-3b78a9?style=for-the-badge&logoColor=ffffff" alt="Changelog-Badge">
     </a>
 </p>
 
 <p align="center">
     <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
-        <img src="https://img.shields.io/badge/Documentation-ef5552?style=for-the-badge&logo=Read the Docs&logoColor=ffffff" alt="Documentation">
+        <img src="https://img.shields.io/badge/Documentation-ef5552?style=for-the-badge&logo=Read the Docs&logoColor=ffffff" alt="Documentation-Badge">
     </a>
     <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
-        <img src="https://img.shields.io/badge/Source_code-0953dc?style=for-the-badge&logo=Github&logoColor=fffff" alt="Source Code">
+        <img src="https://img.shields.io/badge/Source_code-0953dc?style=for-the-badge&logo=Github&logoColor=fffff" alt="Source-Code-Badge">
     </a>
+</p>
+
+<p align="center">
+    <img src="https://img.shields.io/github/license/Gandori/Simple-MongoDB?style=for-the-badge" alt="License-Badge">
+    <img src="https://img.shields.io/pypi/dm/simple-mongodb?style=for-the-badge&label=PyPi%20" alt="PyPi-Download-Badge">
+    <img src="https://img.shields.io/github/actions/workflow/status/Gandori/Simple-MongoDB/Publish%20Package?branch=master&style=for-the-badge&label=Build%20Action" alt="Build-Action-Badge">
 </p>
 
 
