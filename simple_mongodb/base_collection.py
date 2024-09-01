@@ -304,6 +304,8 @@ class BaseCollection(Exceptions):
         Raises:
             CountDocumentsError:
                 Raised if an error occurs while attempting to count the documents.
+            ServerTimeoutError:
+                Raised if the server takes too long to respond.
         '''
         return await self.client.count_documents(
             db=self.db, collection=self.collection, where=where
@@ -325,6 +327,8 @@ class BaseCollection(Exceptions):
         Raises:
             DatabaseCreateIndexError:
                 If an error occurs while creating the index.
+            ServerTimeoutError:
+                Raised if the server takes too long to respond.
         '''
 
         await self.client.create_index(
@@ -349,6 +353,8 @@ class BaseCollection(Exceptions):
         Raises:
             DatabaseCreateIndexError:
                 If an error occurs while creating the indexes.
+            ServerTimeoutError:
+                Raised if the server takes too long to respond.
         '''
 
         self.indexes.extend(indexes if indexes else [])
