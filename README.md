@@ -21,9 +21,8 @@
 <p align="center">
     <img src="https://img.shields.io/github/license/Gandori/Simple-MongoDB?style=for-the-badge" alt="License-Badge">
     <img src="https://img.shields.io/pypi/dm/simple-mongodb?style=for-the-badge&label=PyPi%20" alt="PyPi-Download-Badge">
-    <img src="https://img.shields.io/github/actions/workflow/status/Gandori/Simple-MongoDB/Publish%20Package?branch=master&style=for-the-badge&label=Build%20Action" alt="Build-Action-Badge">
+    <img src="https://img.shields.io/github/actions/workflow/status/Gandori/Simple-MongoDB/publish.yml?branch=master&event=pull_request&style=for-the-badge&label=Build%20Action" alt="Build-Action-Badge">
 </p>
-
 
 > Warning: This Python package is currently still in development phase
 
