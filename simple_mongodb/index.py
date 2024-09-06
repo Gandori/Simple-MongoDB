@@ -20,7 +20,7 @@ class Index:
             index (str):
                 The field name on which the index is created.
             name (str):
-                The name of the index.
+                Custom name to use for this index - if none is given, a name will be generated.
             sort (Literal[1, -1]):
                 The sort order of the index, where 1 indicates ascending
                 and -1 indicates descending. Default is 1.
@@ -34,7 +34,7 @@ class Index:
         '''
 
         index: str
-        name: str
+        name: str | None = None
         sort: Literal[1, -1] = 1
         unique: bool = False
         sparse: bool = True
@@ -63,7 +63,7 @@ class Index:
                 A list of tuples where each tuple contains a field name
                 and the sort order (1 for ascending, -1 for descending).
             name (str):
-                The name of the index.
+                Custom name to use for this index - if none is given, a name will be generated.
             unique (bool):
                 Specifies whether the index should enforce uniqueness. Default is False.
             sparse (bool):
@@ -74,7 +74,7 @@ class Index:
         '''
 
         indexes: list[tuple[str, Literal[1, -1]]]
-        name: str
+        name: str | None = None
         unique: bool = False
         sparse: bool = True
         partialFilterExpression: None | dict[str, Any] = None
@@ -102,9 +102,9 @@ class Index:
             index (str):
                 The field name on which the TTL index is created.
             name (str):
-                The name of the index.
+                Custom name to use for this index - if none is given, a name will be generated.
             expireAfterSeconds (int):
-                The number of seconds after which the documents will expire.
+                The number of seconds after which the documents will expire. Default is 3600.
             sort (Literal[1, -1]):
                 The sort order of the index, where 1 indicates ascending
                 and -1 indicates descending. Default is 1.
@@ -116,8 +116,8 @@ class Index:
         '''
 
         index: str
-        name: str
-        expireAfterSeconds: int
+        name: str | None = None
+        expireAfterSeconds: int = 3600
         sort: Literal[1, -1] = 1
         sparse: bool = True
         partialFilterExpression: None | dict[str, Any] = None
