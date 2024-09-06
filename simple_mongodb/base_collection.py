@@ -1,3 +1,4 @@
+import asyncio
 from typing import Any, Dict, List, Literal, Type
 
 from bson import ObjectId
@@ -336,7 +337,11 @@ class BaseCollection(Exceptions):
         )
 
     async def create_indexes(
-        self, indexes: list[Index.IndexType] | None = None
+        self,
+        indexes: list[Index.IndexType] | None = None,
+        retry_on_failure: bool = False,
+        retry_interval: int = 5,
+        retry_attempts: int | None = None,
     ) -> None:
         '''
         Create many indexes in the collection and create the indexes that defined in the collection class
@@ -345,7 +350,12 @@ class BaseCollection(Exceptions):
             indexes (list[Index.IndexType] | None):
                 List of indexes to create in the collection. Every index can be an instance of a specific
                 index type (e.g., `Index.SimpleIndex`, `Index.CompoundIndex`, ...`).
-
+            retry_on_failure (bool):
+                If True, the function will retry creating the indexes upon failure. Default is False.
+            retry_interval (int):
+                Time in seconds to wait between retries in case of failure. Default is 5.
+            retry_attempts (int | None):
+                The maximum number of retry attempts in case of failure. If None, it will keep retrying indefinitely.
         Returns:
             None:
                 This method does not return a value.
@@ -362,6 +372,22 @@ class BaseCollection(Exceptions):
         if len(self.indexes) < 1:
             return None
 
-        await self.client.create_indexes(
-            db=self.db, collection=self.collection, indexes=self.indexes
-        )
+        while retry_on_failure:
+            try:
+                await self.client.create_indexes(
+                    db=self.db, collection=self.collection, indexes=self.indexes
+                )
+                break
+            except Exception:
+                print(
+                    f'Failed to create indexes for {self.collection}, retry after {retry_interval} seconds.'
+                )
+                if retry_attempts:
+                    retry_attempts -= 1
+                    if retry_attempts == 0:
+                        break
+            await asyncio.sleep(retry_interval)
+        else:
+            await self.client.create_indexes(
+                db=self.db, collection=self.collection, indexes=self.indexes
+            )
