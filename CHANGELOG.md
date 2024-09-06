@@ -1,5 +1,10 @@
 # Changelog
 
+### Version - 0.4.2
+
+- Add Changelog link in pyproject.toml in the project.urls section.
+- Update README.md remove useless link from python versions banner.
+
 ### Version - 0.4.1
 
 - Update project description in pyproject.toml
