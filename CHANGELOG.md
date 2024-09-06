@@ -1,5 +1,11 @@
 # Changelog
 
+### Version - 0.5.0
+
+- Update version in pyproject.toml to 0.5.0.
+- Improve Docstrings.
+- Make the name of an Index optional.
+
 ### Version - 0.4.2
 
 - Add Changelog link in pyproject.toml in the project.urls section.
