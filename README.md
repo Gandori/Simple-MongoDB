@@ -1,9 +1,7 @@
 # Simple-MongoDB
 
 <p align="center">
-    <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
-        <img src="https://img.shields.io/badge/3.12-3b78a9?style=for-the-badge&logo=Python&logoColor=ffffff" alt="Python-Versions">
-    </a>
+    <img src="https://img.shields.io/badge/3.12-3b78a9?style=for-the-badge&logo=Python&logoColor=ffffff" alt="Python-Versions">
     <a href="https://github.com/Gandori/Simple-MongoDB/blob/master/CHANGELOG.md" target="_blank">
         <img src="https://img.shields.io/badge/Changelog-3b78a9?style=for-the-badge&logoColor=ffffff" alt="Changelog-Badge">
     </a>
