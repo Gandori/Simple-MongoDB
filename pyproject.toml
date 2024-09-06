@@ -22,6 +22,7 @@ classifiers = [
 Homepage = 'https://github.com/Gandori/Simple-MongoDB'
 Documentation = 'https://github.com/Gandori/Simple-MongoDB'
 Repository = 'https://github.com/Gandori/Simple-MongoDB'
+Changelog = 'https://github.com/Gandori/Simple-MongoDB/blob/master/CHANGELOG.md'
 
 [project.optional-dependencies]
 dev = [
