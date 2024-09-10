@@ -176,16 +176,16 @@ class MongoDBClient:
         return result.upserted_id
 
     @exception_decorator(exception=Exceptions.DeleteError)
-    async def delete_one(
-        self, db: str, collection: str, where: dict[str, Any]
-    ) -> DeleteResult:
-        return await self.__client[db][collection].delete_one(where)
+    async def delete_one(self, db: str, collection: str, where: dict[str, Any]) -> int:
+        result: DeleteResult = await self.__client[db][collection].delete_one(where)
+        return result.deleted_count
 
     @exception_decorator(exception=Exceptions.DeleteError)
-    async def delete_many(
-        self, db: str, collection: str, where: dict[str, Any]
-    ) -> DeleteResult:
-        return await self.__client[db][collection].delete_many(filter=where)
+    async def delete_many(self, db: str, collection: str, where: dict[str, Any]) -> int:
+        result: DeleteResult = await self.__client[db][collection].delete_many(
+            filter=where
+        )
+        return result.deleted_count
 
     @exception_decorator(exception=Exceptions.DropCollectionError)
     async def drop_collection(self, db: str, collection: str) -> None:
