@@ -227,7 +227,7 @@ class BaseCollection(Exceptions):
             upsert=upsert,
         )
 
-    async def delete_one(self, where: Dict[str, Any]) -> None:
+    async def delete_one(self, where: Dict[str, Any]) -> int:
         '''
         Delete one document in the collection
 
@@ -236,8 +236,8 @@ class BaseCollection(Exceptions):
                 A dictionary specifying the criteria for finding the document to delete.
 
         Returns:
-            None:
-                This method does not return a value.
+            deleted_count (int):
+                The number of documents deleted.
 
         Raises:
             DeleteError:
@@ -246,11 +246,11 @@ class BaseCollection(Exceptions):
                 Raised if the server takes too long to respond.
         '''
 
-        await self.client.delete_one(
+        return await self.client.delete_one(
             db=self.db, collection=self.collection, where=where
         )
 
-    async def delete_many(self, where: Dict[str, Any]) -> None:
+    async def delete_many(self, where: Dict[str, Any]) -> int:
         '''
         Delete many documents in the collection
 
@@ -259,8 +259,8 @@ class BaseCollection(Exceptions):
                 A dictionary specifying the criteria for finding the documents to delete.
 
         Returns:
-            None:
-                This method does not return a value.
+            deleted_count (int):
+                The number of documents deleted.
 
         Raises:
             DeleteError:
@@ -269,7 +269,7 @@ class BaseCollection(Exceptions):
                 Raised if the server takes too long to respond.
         '''
 
-        await self.client.delete_many(
+        return await self.client.delete_many(
             db=self.db, collection=self.collection, where=where
         )
 

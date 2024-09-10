@@ -1,5 +1,10 @@
 # Changelog
 
+### Version - 0.7.0
+
+- Update the result of collection.delete_many() from None to deleted_count (int).
+- Update the result of collection.delete_one() from None to deleted_count (int).
+
 ### Version - 0.6.0
 
 - Implement auto retry for collection.create_indexes().
