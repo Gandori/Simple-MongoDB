@@ -1,5 +1,13 @@
 # Changelog
 
+### Version - 0.8.2 (2024-09-13)
+
+- Implement steps for version check in Publish Package action.
+- Improve Publish Package action.
+- Add python script to check versions.
+- Add python script to install dependencies.
+- Add python script to update requirements files.
+
 ### Version - 0.8.1 (2024-09-13)
 
 - Update dev-dependencies: add twine==5.1.1.
