@@ -210,3 +210,11 @@ class MongoDBClient:
         await self.__client[db][collection].create_indexes(
             indexes=[IndexModel(**index.model_dump()) for index in indexes]
         )
+
+    @exception_decorator(exception=Exceptions.DropIndexError)
+    async def drop_index(self, db: str, collection: str, index_or_name: str) -> None:
+        await self.__client[db][collection].drop_index(index_or_name=index_or_name)
+
+    @exception_decorator(exception=Exceptions.DropIndexError)
+    async def drop_indexes(self, db: str, collection: str) -> None:
+        await self.__client[db][collection].drop_indexes()

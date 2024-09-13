@@ -1,5 +1,10 @@
 # Changelog
 
+### Version - 0.8.0
+
+- Implement collection.drop_index().
+- Implement collection.drop_indexes().
+
 ### Version - 0.7.0
 
 - Update the result of collection.delete_many() from None to deleted_count (int).

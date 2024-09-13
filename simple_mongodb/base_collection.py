@@ -391,3 +391,45 @@ class BaseCollection(Exceptions):
             await self.client.create_indexes(
                 db=self.db, collection=self.collection, indexes=self.indexes
             )
+
+    async def drop_index(self, index_or_name: str) -> None:
+        '''
+        Drop the index from the collection.
+
+        Args:
+            index_or_name (str):
+                The name of the index to drop or the index specification to identify which
+                index to remove from the collection.
+
+        Returns:
+            None:
+                This method does not return a value.
+
+        Raises:
+            DropIndexError:
+                If an error occurs while dropping the index.
+            ServerTimeoutError:
+                Raised if the server takes too long to respond.
+        '''
+        await self.client.drop_index(
+            db=self.db, collection=self.collection, index_or_name=index_or_name
+        )
+
+    async def drop_indexes(self) -> None:
+        '''
+        Drop all indexes from the collection.
+
+        Args:
+            None
+
+        Returns:
+            None:
+                This method does not return a value.
+
+        Raises:
+            DropIndexError:
+                If an error occurs while dropping the indexes.
+            ServerTimeoutError:
+                Raised if the server takes too long to respond.
+        '''
+        await self.client.drop_indexes(db=self.db, collection=self.collection)
