@@ -27,6 +27,9 @@ jobs:
       - name: Check versions
         run: python scripts/check_versions.py
 
+      - name: Check changelog
+        run: python scripts/check_changelog.py
+
       - name: Build package
         run: python -m build
 
