@@ -1,5 +1,13 @@
 # Changelog
 
+### Version - 0.8.1 (2024-09-13)
+
+- Update dev-dependencies: add twine==5.1.1.
+- Update dev-dependencies: add build==1.2.2.
+- Update dev-dependencies: add wheel==0.44.0.
+- Update dev-dependencies: add setuptools==74.1.2.
+- Update dev-dependencies: add toml==0.10.2.
+
 ### Version - 0.8.0
 
 - Implement collection.drop_index().
