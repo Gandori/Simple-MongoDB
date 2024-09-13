@@ -43,6 +43,9 @@ def main() -> None:
     if not init_file_version == pyproject_version:
         raise VersionNotSameError('The versions are not the same')
 
+    if os.getenv('GITHUB_ACTIONS') == 'true':
+        os.system(f'echo "APP_VERSION={version}" >> $GITHUB_ENV')
+
 
 if __name__ == '__main__':
     main()
