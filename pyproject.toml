@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = 'simple-mongodb'
-version = '0.8.2'
+version = '0.8.3'
 description = " An asynchronous Python package for streamlined collection management in MongoDB "
 requires-python = '>=3.12'
 authors = []
 license = { file = "LICENSE" }
 readme = "README.md"
-dependencies = ['motor==3.5.0']
+dependencies = ['motor==3.5.0', 'pymongo==4.8.0']
 classifiers = [
     'Programming Language :: Python',
     'Programming Language :: Python :: 3.12',
