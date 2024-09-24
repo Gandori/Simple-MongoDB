@@ -1,5 +1,9 @@
 # Changelog
 
+### Version - 0.8.3 (2024-09-24)
+
+- Update dependencies: add pymongo==4.8.0.
+
 ### Version - 0.8.2 (2024-09-13)
 
 - Implement steps for version check in Publish Package action.
