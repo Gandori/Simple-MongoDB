@@ -72,7 +72,7 @@ class BaseCollection(Exceptions):
         Raises:
             NotFoundError:
                 If the document not find.
-            FindOneError:
+            FindError:
                 If an error occurs while finding the document.
             ServerTimeoutError:
                 Raised if the server takes too long to respond.
@@ -82,7 +82,6 @@ class BaseCollection(Exceptions):
             db=self.db, collection=self.collection, where=where
         )
 
-    # erganeze den docstring
     async def find(
         self,
         where: Dict[str, Any] = {},
@@ -109,7 +108,7 @@ class BaseCollection(Exceptions):
                 A list of dictionaries, each representing a document.
 
         Raises:
-            FindOneError:
+            FindError:
                 If an error occurs while finding the documents.
             ServerTimeoutError:
                 Raised if the server takes too long to respond.

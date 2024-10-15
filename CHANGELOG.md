@@ -1,5 +1,20 @@
 # Changelog
 
+### Version - 0.8.4 (2024-10-14)
+
+- Removed exception_decorator from mongodb_client file.
+- Improvements in mongodb client class.
+- Renamed github action name from Publish Package to Test, Build and Publish Package.
+- Added test stage in ci and renamed job from build-and-deploy to test-build-and-deploy.
+- Restructure test files.
+- Added docstrings to mongodb client params.
+- Improve mongodb client init method.
+- Implement tests for base collection find one method.
+- Implement tests for mongodb client params.
+- Fix docstring in base collection find_one method.
+- Fix docstring in base collection find method.
+- Removed useless tests.
+
 ### Version - 0.8.3 (2024-09-24)
 
 - Update dependencies: add pymongo==4.8.0.

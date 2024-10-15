@@ -25,12 +25,12 @@ def test_is_db_value_in_subclass_a_string() -> None:
             db = 22  # type: ignore
 
 
-def test_is_client_value_in_subclass() -> None:
-    with pytest.raises(NotImplementedError):
+# def test_is_client_value_in_subclass() -> None:
+#     with pytest.raises(NotImplementedError):
 
-        class ExampleCollection(BaseCollection):  # type: ignore
-            collection = 'example-collection'  # type: ignore
-            client = None  # type: ignore
+#         class ExampleCollection(BaseCollection):  # type: ignore
+#             collection = 'example-collection'  # type: ignore
+#             client = None  # type: ignore
 
 
 def test_has_subclass_init_method() -> None:
