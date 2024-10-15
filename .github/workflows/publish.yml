@@ -1,4 +1,4 @@
-name: Publish Package
+name: Test, Build and Publish Package
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  test-build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,9 @@ jobs:
 
       - name: Check changelog
         run: python scripts/check_changelog.py
+
+      - name: Run tests
+        run: pytest
 
       - name: Build package
         run: python -m build
