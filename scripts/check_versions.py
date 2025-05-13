@@ -1,9 +1,15 @@
 import os
 
-import toml
-
 
 class VersionNotSameError(Exception):
+    pass
+
+
+class LoadInitFileVersionError(Exception):
+    pass
+
+
+class LoadPyprojectVersionError(Exception):
     pass
 
 
@@ -12,25 +18,21 @@ def get_version_from_init_file() -> str:
         for line in file.readlines():
             if not '__version__ = ' in line:
                 continue
-            return line.replace('__version__ = ', '').replace('\'', '')[0:-1]
+            version: str = line.replace('__version__ = ', '').replace('\'', '')
+            return version.replace('\n', '')
+    raise LoadInitFileVersionError(
+        '__version__ in simple_mongodb/__init__.py not found'
+    )
 
 
 def get_version_from_pyproject_toml() -> str:
-    file: str = 'pyproject.toml'
-    if not os.path.isfile(file):
-        raise FileNotFoundError(f'{file} no found')
-
-    data: dict[str, Any] = toml.load(file)
-
-    project: dict[str, Any] | None = data.get('project', None)
-    if not project:
-        raise ValueError(f'project is not found in {file}')
-
-    version: str | None = project.get('version', None)
-    if not version:
-        raise ValueError(f'version is not found in {file}')
-
-    return version
+    with open(file='pyproject.toml', mode='r') as file:
+        for line in file.readlines():
+            if not "version = '" in line:
+                continue
+            version: str = line.replace('version = ', '').replace('\'', '')
+            return version.replace('\n', '')
+    raise LoadPyprojectVersionError('version in pyproject.toml not found')
 
 
 def main() -> None:
