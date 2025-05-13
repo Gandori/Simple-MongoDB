@@ -1,5 +1,9 @@
 # Changelog
 
+### Version - 0.9.0 (2025-05-13)
+
+- Implement find_one_and_update().
+
 ### Version - 0.8.4 (2024-10-14)
 
 - Removed exception_decorator from mongodb_client file.
