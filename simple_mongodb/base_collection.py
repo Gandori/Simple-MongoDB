@@ -82,6 +82,41 @@ class BaseCollection(Exceptions):
             db=self.db, collection=self.collection, where=where
         )
 
+    async def find_one_and_update(
+        self, where: dict[str, Any], update: dict[str, Any], upsert: bool = False
+    ) -> dict[str, Any]:
+        '''
+        Update one document in the collection and returned the updated document.
+
+        Args:
+            where (dict):
+                A dictionary specifying the criteria for finding the document.
+            update (dict):
+                A dictionary specifying the fields and values to update in the document.
+            upsert (bool, optional):
+                Whether to insert the document if it does not exist. Defaults to False.
+
+        Returns:
+            document (dict[str, Any]):
+                A dictionary representing the document.
+
+        Raises:
+            NotFoundError:
+                If the document not found.
+            FindOneError:
+                If an error occurs while finding the document.
+            ServerTimeoutError:
+                Raised if the server takes too long to respond.
+        '''
+
+        return await self.client.find_one_and_update(
+            db=self.db,
+            collection=self.collection,
+            where=where,
+            update=update,
+            upsert=upsert,
+        )
+
     async def find(
         self,
         where: Dict[str, Any] = {},
