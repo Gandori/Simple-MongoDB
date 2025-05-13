@@ -203,6 +203,30 @@ class MongoDBClient:
         except ServerSelectionTimeoutError as e:
             raise Exceptions.ServerTimeoutError(e)
         except Exception as e:
+            raise Exceptions.FindOneError(e)
+
+        if not result:
+            raise Exceptions.NotFoundError('The document was not found')
+
+        return result
+
+    async def find_one_and_update(
+        self,
+        db: str,
+        collection: str,
+        where: dict[str, Any],
+        update: dict[str, Any],
+        upsert: bool = False,
+    ) -> dict[str, Any]:
+        try:
+            result: dict[str, Any] = await self.__client[db][
+                collection
+            ].find_one_and_update(
+                filter=where, update=update, upsert=upsert, return_document=True
+            )
+        except ServerSelectionTimeoutError as e:
+            raise Exceptions.ServerTimeoutError(e)
+        except Exception as e:
             raise Exceptions.FindError(e)
 
         if not result:
