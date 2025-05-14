@@ -1,4 +1,4 @@
-# Simple-MongoDB
+<h1 align=center>Simple-MongoDB</h1>
 
 <p align="center">
     <img src="https://img.shields.io/badge/3.12-3b78a9?style=for-the-badge&logo=Python&logoColor=ffffff" alt="Supported-Python-Versions-Badge">
@@ -6,25 +6,19 @@
 
 <p align="center">
     <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
-        <img src="https://img.shields.io/badge/Documentation-ef5552?style=for-the-badge&logo=Read the Docs&logoColor=ffffff" alt="Documentation-Badge">
+        <img src="https://img.shields.io/badge/Documentation-ef5552?style=for-the-badge&logo=Read-the-Docs&logoColor=ffffff" alt="Documentation-Badge">
     </a>
     <a href="https://github.com/Gandori/Simple-MongoDB" target="_blank">
         <img src="https://img.shields.io/badge/Source_code-0953dc?style=for-the-badge&logo=Github&logoColor=fffff" alt="Source-Code-Badge">
     </a>
     <a href="https://github.com/Gandori/Simple-MongoDB/blob/master/CHANGELOG.md" target="_blank">
-        <img src="https://img.shields.io/badge/Changelog-3b78a9?style=for-the-badge&logo=Read the Docs&logoColor=ffffff" alt="Changelog-Badge">
+        <img src="https://img.shields.io/badge/Changelog-3b78a9?style=for-the-badge&logo=Read-the-Docs&logoColor=ffffff" alt="Changelog-Badge">
     </a>
 </p>
 
 <p align="center">
-    <a href="https://github.com/Gandori/Simple-MongoDB/blob/master/LICENSE" target="_blank">
-        <img src="https://img.shields.io/github/license/Gandori/Simple-MongoDB?style=for-the-badge" alt="License-Badge">
-    </a>
-    <img src="https://img.shields.io/pypi/dm/simple-mongodb?style=for-the-badge&label=PyPi%20" alt="PyPi-Download-Badge">
-    <a href="https://pypi.org/project/simple-mongodb/" target="_blank">
-        <img src="https://img.shields.io/pypi/v/simple-mongodb?style=for-the-badge&color=%3b78a9&label=pypi%20package" alt="Package-version-Badge">
-    </a>
-    <img src="https://img.shields.io/github/actions/workflow/status/Gandori/Simple-MongoDB/publish.yml?&style=for-the-badge&label=Build%20Action" alt="Build-Action-Badge">
+    <img src="https://img.shields.io/github/license/Gandori/Simple-MongoDB?style=for-the-badge" alt="License-Badge">
+    <img src="https://img.shields.io/pypi/v/simple-mongodb?style=for-the-badge&color=%3b78a9&label=pypi%20package" alt="Package-version-Badge">
 </p>
 
 <p align="center">
