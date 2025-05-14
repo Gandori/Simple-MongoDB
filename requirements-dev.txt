@@ -9,4 +9,4 @@ toml==0.10.2
 setuptools==74.1.2
 wheel==0.44.0
 build==1.2.2
-twine==5.1.1
+twine==6.1.0
